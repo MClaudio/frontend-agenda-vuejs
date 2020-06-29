@@ -1,18 +1,42 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header msg="Usuarios" />
+    <Tabla :personas="personas" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Header from "@/components/Header.vue";
+import Tabla from "@/components/Tabla.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    Header,
+    Tabla,
+  },
+  data() {
+    return {
+      personas: null
+    };
+  },
+  personaService: null,
+  created() {
+    this.getUsuarios();
+    //this.personaService = new PersonaService();
+  },
+  methods: {
+    async getUsuarios() {
+      try {
+        console.log(this.headers)
+        const usuarios = await this.axios.get("usuarios");
+        this.personas = usuarios.data;
+        //console.log(this.personas);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
 </script>
